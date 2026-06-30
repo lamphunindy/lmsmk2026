@@ -565,17 +565,17 @@ async function sendBuddyMessage() {
 
     const promptText = `${systemPrompt}\n\nข้อความจากฮีโร่: ${message}`;
 
-    // TODO: เรียก AI จาก Backend แทน
-    document.getElementById(typingId).remove();
-    chatHistory.insertAdjacentHTML('beforeend', `<div class="chat-msg chat-bot" style="background:#fee2e2; color:#ef4444;">ขออภัยฮีโร่! ตอนนี้ระบบผู้ช่วยกำลังปรับปรุงความปลอดภัยอยู่จ้า 🛠️</div>`);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-    return;
+    const response = await fetch('/.netlify/functions/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ promptText })
+    });
 
     const data = await response.json();
     document.getElementById(typingId).remove();
 
     if (!response.ok) { 
-      throw new Error(data.error ? data.error.message : "เกิดข้อผิดพลาดในการเชื่อมต่อ"); 
+      throw new Error(data.error ? data.error.message || data.error : "เกิดข้อผิดพลาดในการเชื่อมต่อ"); 
     }
 
     const reply = data.candidates[0].content.parts[0].text;

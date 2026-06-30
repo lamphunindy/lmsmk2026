@@ -1,4 +1,4 @@
-﻿// 🤖 13. ระบบ AI วิเคราะห์ผู้เรียน (Gemini)
+// 🤖 13. ระบบ AI วิเคราะห์ผู้เรียน (Gemini)
 // ==========================================
 async function analyzeStudentWithAI(sid) {
   if (!cid) return showT('ไม่พบห้องเรียน', true);
@@ -36,13 +36,14 @@ async function analyzeStudentWithAI(sid) {
     2. จุดอ่อนหรือเรื่องที่ต้องติดตาม
     3. คำแนะนำสั้นๆ ที่ครูควรนำไปปรับใช้
     `;
-    // TODO: เรียก AI จาก Backend เพื่อความปลอดภัย
-    // await fetch('/api/ai/chat', ...);
-    document.getElementById('ai-analysis-result').innerHTML = '<span style="color:red;">ระบบ AI กำลังปรับปรุง (ย้ายไปประมวลผลบนเซิร์ฟเวอร์เพื่อความปลอดภัย)</span>';
-    return;
+    const response = await fetch('/.netlify/functions/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ promptText })
+    });
 
     const data = await response.json();
-    if (!response.ok) { throw new Error(data.error ? data.error.message : "เกิดข้อผิดพลาดในการเชื่อมต่อ API ของ Google"); }
+    if (!response.ok) { throw new Error(data.error ? data.error.message || data.error : "เกิดข้อผิดพลาดในการเชื่อมต่อ API ของ Google"); }
 
     const reply = data.candidates[0].content.parts[0].text;
     const formattedReply = reply.replace(/\*\*(.*?)\*\*/g, '<b style="color:var(--primary);">$1</b>').replace(/\n/g, '<br>');
