@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #6366f1;
+  --color-secondary: #a855f7;
+  --color-bg: #f8fafc;
+  --color-cardBg: #ffffff;
+  --color-textMain: #1e293b;
+  --color-textMuted: #64748b;
+  --color-border: #e2e8f0;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-textMain);
+    font-family: sans-serif;
+  }
+}
+
+@layer components {
+  .card {
+    background-color: var(--color-cardBg);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  .btn {
+    font-weight: 700;
+    border-radius: 0.5rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+  }
+  .btn-primary:hover {
+    opacity: 0.9;
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+  }
+  .btn-outline:hover {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .btn-dark {
+    background-color: #1f2937;
+    color: white;
+  }
+  .btn-dark:hover {
+    background-color: #374151;
+  }
+}
