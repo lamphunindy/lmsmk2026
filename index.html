@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MK2026 - LMS BY KRUWOOTH โรงเรียนมงคลวิทยา</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="MK2026 ระบบการเรียนการสอน (LMS) โดย KRUWOOTH สำหรับโรงเรียนมงคลวิทยา แพลตฟอร์มจัดการเรียนการสอนที่สนุกเหมือนเล่นเกม ด้วยระบบ Gamification สำหรับครูและนักเรียน mk2026">
+  <meta name="keywords" content="mk2026, MK2026, โรงเรียนมงคลวิทยา, LMS, Learning Management System, ระบบจัดการการเรียนรู้, KRUWOOTH, จัดการห้องเรียน, การศึกษา, Gamification, ห้องเรียนออนไลน์">
+  <meta name="author" content="KRUWOOTH">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mk2026.netlify.app/">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mk2026.netlify.app/">
+  <meta property="og:title" content="MK2026 - LMS BY KRUWOOTH โรงเรียนมงคลวิทยา">
+  <meta property="og:description" content="MK2026 ระบบจัดการการเรียนรู้สำหรับครูและนักเรียน โรงเรียนมงคลวิทยา พร้อมฟีเจอร์สุ่มชื่อ, เช็คชื่อ, สรุปเกรด และ Portfolio">
+  <meta property="og:image" content="https://mk2026.netlify.app/logo.png">  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="MK2026 - LMS BY KRUWOOTH โรงเรียนมงคลวิทยา">
+  <meta property="twitter:description" content="MK2026 ระบบจัดการการเรียนรู้สำหรับครูและนักเรียน โรงเรียนมงคลวิทยา พร้อมฟีเจอร์สุ่มชื่อ, เช็คชื่อ, สรุปเกรด และ Portfolio">
+  <meta property="twitter:image" content="https://mk2026.netlify.app/logo.png">  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#6366f1">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "MK2026 - LMS BY KRUWOOTH",
+    "url": "https://mk2026.netlify.app/",
+    "description": "MK2026 แพลตฟอร์มการจัดการเรียนการสอนแนวใหม่ โรงเรียนมงคลวิทยา ช่วยให้การเรียนสนุกเหมือนเล่นเกม โดย KRUWOOTH",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js" defer></script>
+</head>
+<body>
+
+  <div id="loading"><div class="spinner"></div><b style="color:white; margin-top:10px;">กำลังประมวลผล...</b></div>
+  <div id="toast"></div>
+
+  <button id="theme-toggle" onclick="toggleTheme()" title="สลับโหมดกลางคืน">🌙</button>
+
+  <div id="v-lobby" class="view active container">
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh;">
+      <div class="card" style="width: 100%; max-width: 550px; text-align: center; padding: 50px 40px;">
+        <div style="margin-bottom: 20px;">
+          <img id="main-lobby-logo" src="logo.png" alt="LMS Logo" style="max-height: 120px; max-width: 100%; object-fit: contain;">
+        </div>
+        <h1 id="main-lobby-title" style="font-size: 2rem; margin-bottom: 30px; color: var(--text-main); font-weight: 700;">MK2026 - LMS HERO EDITION</h1>
+        
+        <div style="background:var(--bg); padding:30px; border-radius:1rem; margin-bottom:30px; border:1px solid var(--border-color);">
+          <h3 style="color: var(--primary); margin-bottom:20px; font-weight: 600;">👨‍🎓 ค้นหาผลการเรียน (ด่วน)</h3>
+          <div class="form-group">
+            <input type="text" id="name-search" placeholder="พิมพ์ชื่อ เลขที่ หรือเลขประจำตัว..." style="text-align:center; padding: 16px;" onkeypress="if(event.key==='Enter')doSearch()">
+          </div>
+          <button id="btn-search-text" class="btn btn-outline" style="width:100%; padding: 14px;" onclick="doSearch()">🔍 ค้นหา</button>
+        </div>
+        
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <button id="btn-student-login-text" class="btn btn-primary" style="flex:1; padding: 14px; min-width:180px; white-space:nowrap; background:#059669;" onclick="switchView('v-login')">🦸‍♂️ เข้าสู่ระบบ (นักเรียน)</button>
+          <button id="btn-staff-login-text" class="btn btn-dark" style="flex:1; padding: 14px; min-width:180px; white-space:nowrap;" onclick="switchView('v-login-staff')">🔐 บุคลากร (ครู/แอดมิน)</button>
+        </div>
+
+        <button id="btn-calendar-text" class="btn btn-outline" style="width:100%; margin-top:15px; border-color:var(--border-blue); color:var(--text-blue);" onclick="switchView('v-calendar');">
+          📅 ดูปฏิทินกิจกรรม / ประกาศ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="v-login" class="view container">
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh;">
+      <div class="card" style="width: 100%; max-width: 420px; text-align: center; padding: 50px 40px;">
+        <div style="font-size: 3.5rem; margin-bottom: 10px;">🦸‍♂️</div>
+        <h2 style="margin-bottom: 10px; font-weight: 600;">เข้าสู่ฐานทัพฮีโร่</h2>
+        <p style="color:var(--text-muted); margin-bottom:30px;">(สำหรับนักเรียน)</p>
+        <div class="form-group"><input type="text" id="stu-u" placeholder="เลขประจำตัวนักเรียน" style="padding: 15px; text-align:center;"></div>
+        <div class="form-group"><input type="password" id="stu-p" placeholder="รหัส PIN 4 หลัก" style="padding: 15px; text-align:center; letter-spacing:10px;" onkeypress="if(event.key==='Enter')doLoginStudent()"></div>
+        <button class="btn btn-primary" style="width:100%; margin-top:10px; padding: 15px;" onclick="doLoginStudent()">เข้าสู่ระบบ</button>
+        <button class="btn btn-outline" style="width:100%; margin-top:15px; border:none;" onclick="switchView('v-lobby')">← กลับหน้าหลัก</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="v-login-staff" class="view container">
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh;">
+      <div class="card" style="width: 100%; max-width: 420px; text-align: center; padding: 50px 40px;">
+        <div style="font-size: 3.5rem; margin-bottom: 10px;">🔐</div>
+        <h2 style="margin-bottom: 10px; font-weight: 600;">เข้าสู่ระบบบุคลากร</h2>
+        <p style="color:var(--text-muted); margin-bottom:30px;">(ครูผู้สอน / ผู้ดูแลระบบ)</p>
+        <div class="form-group"><input type="text" id="u" placeholder="Email" style="padding: 15px;"></div>
+        <div class="form-group"><input type="password" id="p" placeholder="Password" style="padding: 15px;" onkeypress="if(event.key==='Enter')doLoginStaff()"></div>
+        <button class="btn btn-dark" style="width:100%; margin-top:10px; padding: 15px;" onclick="doLoginStaff()">เข้าสู่ระบบ</button>
+        <button class="btn btn-outline" style="width:100%; margin-top:15px; border:none;" onclick="switchView('v-lobby')">← กลับหน้าหลัก</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="v-student-dash" class="view container">
+    <div class="header-bar" style="border:none; margin-bottom:0;">
+      <h2 style="color:var(--text-main);">ฐานทัพของฉัน</h2>
+      <div>
+        <button class="btn btn-primary" style="background:var(--border-blue); margin-right:8px;" onclick="viewMyPortfolio()">🌟 ดูแฟ้มผลงาน (Portfolio)</button>
+        <button class="btn btn-outline" style="color:var(--text-red); border-color:var(--border-red);" onclick="logout()">ออกจากระบบ</button>
+      </div>
+    </div>
+    <div class="hero-header">
+      <div style="display:flex; justify-content:center; gap:15px; align-items:center; margin-bottom:15px;">
+        <h3 style="margin:0; font-weight:400; opacity:0.9;">ธีมปัจจุบัน:</h3>
+        <select id="dash-theme-selector" onchange="renderDashGamification()" style="width:auto; padding:5px 10px; border-radius:8px; font-size:0.9rem; background:rgba(255,255,255,0.2); color:white; border:1px solid rgba(255,255,255,0.4);">
+          <option value="tree" style="color:#333;">🌱 ต้นไม้แห่งความรู้</option>
+          <option value="pet" style="color:#333;">🐉 สัตว์เลี้ยงดิจิทัล</option>
+          <option value="rpg" style="color:#333;">⚔️ อัปแรงก์นักผจญภัย</option>
+          <option value="fairy" style="color:#333;">🧚‍♀️ เหล่านางฟ้าพิทักษ์</option>
+        </select>
+      </div>
+      <div id="dash-icon" style="font-size: 6rem; margin-bottom:10px;">❓</div>
+      <h1 id="dash-name" style="margin-bottom:5px; font-size:2.2rem;">ชื่อนักเรียน</h1>
+      <p id="dash-rank" style="font-size:1.2rem; opacity:0.9; margin-bottom:15px;">ระดับ: โหลดข้อมูล...</p>
+      <div class="exp-bar"><div id="dash-exp" class="exp-fill"></div></div>
+      <p style="font-size:1rem; margin-top:10px;">พลังฮีโร่: <b id="dash-pts" style="font-size:1.3rem;">0</b> แต้ม</p>
+      <p id="dash-next-level" style="font-size:0.9rem; opacity:0.8; margin-top:5px;"></p>
+    </div>
+    
+    <div class="grid" style="grid-template-columns: minmax(300px, 2fr) minmax(300px, 1fr);">
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <!-- ประกาศจากครู -->
+        <div class="card" style="margin:0; background: linear-gradient(135deg, #fffbeb, #fef3c7); border:1px solid #fbbf24;">
+          <h3 style="color:#d97706; margin-bottom:10px; display:flex; align-items:center; gap:8px;">📢 ประกาศสำคัญ</h3>
+          <div id="dash-announcement" style="font-size:0.95rem; color:#92400e; line-height:1.5;">
+            กำลังโหลดข้อมูล...
+          </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="card" style="margin:0; border-color:#f59e0b;">
+          <h3 style="color:#d97706; margin-bottom:15px; display:flex; align-items:center; gap:8px;">🏆 ทำเนียบฮีโร่ Top 5</h3>
+          <div id="dash-leaderboard">
+            <p style="text-align:center; color:var(--text-muted); font-size:0.9rem;">กำลังโหลดข้อมูล...</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin:0; border-color:var(--primary); box-shadow:0 10px 15px rgba(99,102,241,0.1);">
+          <h3 style="color:var(--primary); margin-bottom:15px;">📤 ส่งภารกิจ (อัปโหลดงาน)</h3>
+          <select id="upload-task-selector" style="margin-bottom: 15px;">
+            <option value="">-- เลือกภารกิจที่ต้องการส่ง (ถ้ามี) --</option>
+          </select>
+          <div class="upload-zone" onclick="document.getElementById('file-input').click()">
+            <div style="font-size:2.5rem; margin-bottom:10px;">📂</div>
+            <span id="file-label" style="font-weight:600; color:var(--text-main);">คลิกเพื่อเลือกไฟล์ หรือ ลากไฟล์มาวางที่นี่</span>
+            <input type="file" id="file-input" style="display:none;" onchange="handleFileSelect(this)">
+          </div>
+          <button class="btn btn-primary" id="btn-upload" style="width:100%; padding:14px; display:none;" onclick="uploadWork()">🚀 ยืนยันการส่งงาน</button>
+        </div>
+        
+        <div class="card" style="margin:0; border-color:var(--border-blue);">
+          <h3 style="color:var(--text-blue); margin-bottom:15px;">📜 ภารกิจทดสอบ (ข้อสอบ)</h3>
+          <div id="dash-exam-list"></div>
+        </div>
+
+        <div class="card" style="margin:0;">
+          <h3 style="color:var(--text-main); margin-bottom:15px;">📋 สมุดบันทึกภารกิจ (งานทั้งหมด)</h3>
+          <div id="dash-missing-box" style="display:none; padding:15px; background:var(--bg-red); border-left:4px solid var(--border-red); border-radius:8px; margin-bottom:15px;">
+            <b style="color:var(--text-red);">🚨 ภารกิจค้างส่ง:</b> <span id="dash-missing-text" style="color:var(--text-red);"></span>
+          </div>
+          <div id="dash-quest-list"></div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:20px; padding-top:15px; border-top:2px dashed var(--border-color);">
+            <div><h3 style="color:var(--text-main); margin:0;">เกรดโดยประมาณ: <span id="dash-grade" style="font-size:2rem; color:var(--primary);"></span></h3></div>
+            <div id="dash-total" style="font-size:1.2rem; font-weight:700; color:var(--text-muted);">รวม: 0/0</div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div class="card" style="margin:0;">
+          <h3 style="color:var(--text-green); margin-bottom:15px;">📅 สถิติความมีวินัย</h3>
+          <div style="background:var(--bg-green); padding:15px; border-radius:12px; text-align:center; margin-bottom:15px;">
+            <p style="margin:0; color:var(--text-green); font-size:0.9rem;">มาเรียนต่อเนื่อง (Streak)</p>
+            <h2 style="margin:5px 0 0 0; color:var(--text-green); font-size:2.5rem;"><span id="dash-streak">0</span> <span style="font-size:1rem;">วัน</span></h2>
+            <p id="dash-streak-hint" style="margin:5px 0 0 0; color:var(--text-green); font-size:0.85rem; font-weight:600;"></p>
+          </div>
+          <div id="dash-att-list" style="max-height:250px; overflow-y:auto;"></div>
+        </div>
+        <div class="card" style="margin:0; text-align:center; background:var(--bg-orange); border-color:var(--border-orange);">
+          <div style="font-size:3rem; margin-bottom:10px;">🏆</div>
+          <h3 style="color:var(--text-orange); margin-bottom:10px;">หอเกียรติยศ</h3>
+          <p style="font-size:0.9rem; color:var(--text-orange); margin-bottom:15px;">หากผ่านเกณฑ์ สามารถกดดาวน์โหลดได้เลย!</p>
+          <button class="btn btn-orange" id="btn-dash-cert" style="width:100%; display:none;" onclick="downloadCertificateForStudent()">📥 โหลดเกียรติบัตร (PDF)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="v-portfolio" class="view container port-view" style="background: var(--bg);">
+    <div class="header-bar" style="padding: 15px 20px; margin-bottom: 20px; background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow-soft);">
+      <button class="btn btn-outline" onclick="closePortfolio()">← กลับหน้าหลัก</button>
+      <h2 id="port-title-main" style="color: var(--primary); margin: 0; font-weight: 700;">แฟ้มสะสมผลงาน (E-Portfolio)</h2>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-primary" id="btn-port-edit" style="display:none;" onclick="openEditPortfolio()">✏️ แก้ไขข้อมูล</button>
+        <button class="btn btn-dark" onclick="printPortfolio()">🖨️ พิมพ์ / บันทึก PDF</button>
+      </div>
+    </div>
+
+    <div id="port-container" class="theme-minimal" style="max-width: 850px; margin: 0 auto; background: white; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color);">
+      
+      <div class="port-hero-section" style="background: linear-gradient(135deg, var(--primary), #a855f7); padding: 40px 20px; text-align: center; color: white;">
+        <img id="port-img" src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" class="port-avatar" style="width: 140px; height: 140px; border-radius: 50%; border: 4px solid white; object-fit: cover; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-bottom: 15px;">
+        <h1 id="port-name" style="font-size: 2.2rem; margin: 0; color: white;">ชื่อ-นามสกุล</h1>
+        <h3 id="port-nickname" style="font-weight: 400; opacity: 0.9; margin: 5px 0 15px 0; color: white;">(ชื่อเล่น)</h3>
+        <div id="port-badges" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;"></div>
+      </div>
+
+      <div style="padding: 30px 40px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 25px;">
+          <div style="flex: 1; min-width: 250px; background: var(--bg); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary);">
+            <h3 style="color: var(--dark); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">👤 ข้อมูลส่วนตัว</h3>
+            <p id="port-bio" style="color: var(--text-main); line-height: 1.6; white-space: pre-wrap; font-size: 0.95rem;">ยังไม่มีข้อมูลแนะนำตัว...</p>
+          </div>
+          <div style="flex: 1; min-width: 250px; background: var(--bg); padding: 20px; border-radius: 10px; border-left: 4px solid #f59e0b;">
+            <h3 style="color: var(--dark); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">🎓 ประวัติการศึกษา</h3>
+            <p id="port-edu" style="color: var(--text-main); line-height: 1.6; white-space: pre-wrap; font-size: 0.95rem;">ยังไม่ได้ระบุประวัติการศึกษา...</p>
+          </div>
+        </div>
+
+        <div class="card" style="border-left: 5px solid #f59e0b; margin-bottom: 20px;">
+          <h3 style="color: #b45309; margin-bottom: 10px;">📁 ผลงานที่ภาคภูมิใจ (Top Works)</h3>
+          <div id="port-works-container">
+            <p style="color:var(--text-muted); font-size:0.9rem;">ยังไม่มีผลงานที่ปักหมุดไว้...</p>
+          </div>
+        </div>
+        <div style="background: var(--bg); padding: 20px; border-radius: 10px; border-left: 4px solid #3b82f6;">
+          <h3 style="color: var(--dark); margin-bottom: 20px; text-align: center;">📈 เส้นทางการเรียนรู้ (Learning Journey)</h3>
+          <div style="display: flex; justify-content: space-around; text-align: center; flex-wrap: wrap; gap: 15px;">
+            <div style="flex: 1; min-width: 100px;">
+              <div style="font-size: 2rem; margin-bottom: 5px;">⭐</div>
+              <h2 id="port-total-pts" style="color: #f59e0b; font-size: 2.2rem; margin:0;">0</h2>
+              <p style="color: var(--text-muted); font-size: 0.85rem; margin-top:5px;">พลังฮีโร่สะสม</p>
+            </div>
+            <div style="flex: 1; min-width: 100px; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color);">
+              <div style="font-size: 2rem; margin-bottom: 5px;">🎯</div>
+              <h2 id="port-total-score" style="color: var(--primary); font-size: 2.2rem; margin:0;">0</h2>
+              <p style="color: var(--text-muted); font-size: 0.85rem; margin-top:5px;">คะแนนรวม</p>
+            </div>
+            <div style="flex: 1; min-width: 100px;">
+              <div style="font-size: 2rem; margin-bottom: 5px;">📊</div>
+              <h2 id="port-avg-grade" style="color: #ef4444; font-size: 2.2rem; margin:0;">0</h2>
+              <p style="color: var(--text-muted); font-size: 0.85rem; margin-top:5px;">เกรดเฉลี่ยปัจจุบัน</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="port-footer" style="background: white; padding: 15px; text-align: center; color: var(--text-muted); font-size: 0.8rem; border-top: 1px dashed var(--border-color);">
+        สร้างโดยระบบ LMS Hero Edition © 2026
+      </div>
+    </div>
+  </div>
+  <div id="v-result" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-lobby')">← กลับหน้าหลัก</button>
+      <h2 id="res-title">สรุปคะแนนเก็บ</h2>
+      <button class="btn btn-primary" onclick="window.print()">🖨️ พิมพ์รายงาน</button>
+    </div>
+    <div class="card" id="res-missing-box" style="display:none; background:var(--bg-red); border-color:var(--border-red);">
+      <h3 style="color:var(--text-red); margin-bottom:10px;">🚨 แจ้งเตือน: มีงานค้างส่ง</h3>
+      <p id="res-missing-text" style="color:var(--text-red); font-weight:600; font-size:1.1rem;"></p>
+    </div>
+    <div class="grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 25px;">
+      <div class="card" style="margin-bottom:0;">
+        <h3 style="color:var(--primary); text-align:center; margin-bottom:15px;">📈 สัดส่วนคะแนน</h3>
+        <div class="chart-container" style="position: relative; height:200px; width:100%;">
+          <canvas id="scoreChart"></canvas>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:0;">
+        <h3 style="color:var(--text-green); text-align:center; margin-bottom:15px;">📊 สัดส่วนการมาเรียน</h3>
+        <div class="chart-container" style="position: relative; height:200px; width:100%;">
+          <canvas id="attChart"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card"><h3 style="color:var(--text-blue); margin-bottom:15px;">📝 ผลการทดสอบ (ข้อสอบ)</h3><div id="res-exams" style="overflow-x:auto;"></div></div>
+
+    <div class="card">
+      <h3 style="color:var(--primary); margin-bottom:15px;">📊 รายละเอียดคะแนนเก็บ</h3>
+      <div id="res-scores" style="overflow-x:auto;"></div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:20px; padding-top:15px; border-top:2px dashed var(--border-color);">
+        <div><h2 style="color:var(--text-main); margin:0;">เกรดโดยประมาณ: <span id="res-grade" style="font-size:2.5rem; color:var(--primary);"></span></h2></div>
+        <div id="res-total" style="font-size:1.5rem; font-weight:700; color:var(--text-muted);"></div>
+      </div>
+    </div>
+    <div class="card"><h3 style="color:var(--text-green); margin-bottom:15px;">📅 ประวัติการเข้าเรียน</h3><div id="res-at" style="overflow-x:auto;"></div></div>
+  </div>
+
+  <div id="v-admin" class="view container">
+    <div class="header-bar">
+      <h2>🛡️ จัดการบุคลากร (Admin)</h2>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-outline" id="btn-sys-settings" style="display:none;" onclick="openSystemSettings()">⚙️ ตั้งค่าระบบ</button>
+        <button class="btn btn-green" onclick="doBackup()">💾 แบ็คอัพ</button>
+        <button class="btn btn-outline" onclick="openProfile()">⚙️ โปรไฟล์</button> 
+        <button class="btn btn-outline" onclick="logout()">ออก</button>
+      </div>
+    </div>
+    <div id="superadmin-panel" style="display:none; margin-bottom:25px;">
+      <div class="card" style="margin-bottom: 20px;">
+        <h3 style="margin-top:0;">⚙️ ปรับแต่งหน้าเว็บ (Super Admin)</h3>
+        
+        <div style="margin-bottom: 20px;">
+          <p style="font-size:0.95rem; font-weight:bold; margin-bottom:8px;">1. โลโก้หน้าแรก (PNG)</p>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <img id="admin-logo-preview" src="logo.png" style="height:50px; border-radius:8px; border:1px solid var(--border-color);">
+            <input type="file" id="upload-logo-file" accept="image/*" style="font-size:0.9rem; flex:1;">
+            <button class="btn btn-primary" onclick="uploadMainLogo()">อัปโหลด</button>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <p style="font-size:0.95rem; font-weight:bold; margin-bottom:8px;">2. ข้อความต้อนรับ (Lobby Title)</p>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <input type="text" id="admin-lobby-title" placeholder="เช่น MK2026 - LMS HERO EDITION" style="flex:1;">
+            <button class="btn btn-primary" onclick="saveLobbyTitle()">บันทึกข้อความ</button>
+          </div>
+        </div>
+
+        <div>
+          <p style="font-size:0.95rem; font-weight:bold; margin-bottom:8px;">3. สีหลักของระบบ (Primary Color)</p>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <input type="color" id="admin-primary-color" value="#6366f1" style="width: 60px; height: 40px; cursor:pointer; border:none; border-radius:5px;">
+            <button class="btn btn-primary" onclick="savePrimaryColor()">บันทึกสี</button>
+            <button class="btn btn-outline" onclick="resetPrimaryColor()">คืนค่าดั้งเดิม</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px; background:var(--bg-red); border-color:var(--border-red);">
+        <h3 style="color: var(--text-red); margin: 0;">👑 รายชื่อแอดมิน (SuperAdmin)</h3>
+        <button class="btn btn-red" onclick="openModal('m-admin-add')">+ เพิ่มบัญชีแอดมิน</button>
+      </div>
+      <div class="card" id="admin-list"></div>
+    </div>
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;">
+      <h3 style="color: var(--text-muted); margin: 0;">รายชื่อครู</h3>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-outline" onclick="openAdminClasses()">🔄 โอนย้ายห้องเรียน</button>
+        <button class="btn btn-primary" onclick="openModal('m-teacher')">+ เพิ่มบัญชีครู</button>
+      </div>
+    </div>
+    <div class="card" id="teacher-list"></div>
+  </div>
+
+  <div id="v-admin-classes" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-admin')">← กลับ</button>
+      <h2>🔄 โอนย้ายห้องเรียน</h2>
+    </div>
+    <div id="admin-class-list" class="grid"></div>
+  </div>
+
+  <div id="v-teacher" class="view container">
+    <div class="header-bar">
+      <h2>📚 ห้องเรียนของฉัน</h2>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-outline" onclick="openProfile()">⚙️ โปรไฟล์</button> 
+        <button class="btn btn-outline" style="border-color:#f59e0b; color:#f59e0b;" onclick="openTimetable()">📅 ตารางสอน</button>
+        <button class="btn btn-outline" onclick="logout()">ออก</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="margin-bottom:25px; padding: 14px 28px;" onclick="openModal('m-class')">+ สร้างห้องเรียนใหม่</button>
+    <div id="class-list" class="grid"></div>
+  </div>
+
+  <div id="v-detail" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-teacher')">← กลับ</button>
+      <h2 id="det-title">ห้องเรียน</h2>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button id="btn-tools-text" class="btn btn-outline" onclick="switchView('v-tools')">🛠️ เครื่องมือครู</button> 
+        <button id="btn-seating-text" class="btn btn-outline" onclick="openSeatingChart()">🪑 แผนผังที่นั่ง</button> 
+        <button id="btn-timeline-text" class="btn btn-outline" onclick="loadAttendanceReport()">📊 ไทม์ไลน์</button> 
+        <button id="btn-attendance-text" class="btn btn-primary" onclick="openAttendance()">📅 เช็คชื่อ</button> 
+        <button id="btn-assignments-text" class="btn btn-dark" onclick="loadAssignmentsView()">📁 ภารกิจ</button> 
+        <button id="btn-exams-text" class="btn btn-warning" style="background-color: #f59e0b; color: white; border: none;" onclick="switchView('v-exams'); loadExamsList();">📝 จัดการข้อสอบ</button>
+      </div>
+    </div>
+    <div id="warning-board" class="grid" style="margin-bottom:20px; gap:10px;"></div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap: wrap; gap: 10px;">
+        <h3 style="color:var(--primary); font-size:1.2rem; margin:0;">📊 สรุปคะแนน & เกรด</h3>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button id="btn-excel-text" class="btn btn-outline" style="font-size:0.85rem;" onclick="exportToExcel()">📥 โหลด Excel</button>
+          <button id="btn-cert-text" class="btn btn-outline" style="font-size:0.85rem;" onclick="openCertEditor()">🎓 ออกแบบเกียรติบัตร</button>
+          <button id="btn-add-student-text" class="btn btn-outline" style="font-size:0.85rem;" onclick="openModal('m-stud')">+ เพิ่ม นร. Excel</button>
+          <button id="btn-manage-student-text" class="btn btn-outline" style="font-size:0.85rem;" onclick="openBulkEditStudents()">📝 จัดการ นร.</button>
+          <button id="btn-hero-points-text" class="btn btn-primary" style="font-size:0.85rem;" onclick="openManageStudents()">🦸‍♂️ ให้คะแนนฮีโร่</button>
+        </div>
+      </div>
+      <div id="score-summary-table" style="overflow-x:auto;"></div>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--text-green); margin-bottom:15px; font-size:1.2rem;">📅 สรุปสถิติการมาเรียน</h3>
+      <div id="attendance-summary-table" style="overflow-x:auto;"></div>
+    </div>
+  </div>
+
+  <div id="v-cert-editor" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-detail')">← กลับ</button>
+      <h2>🎓 ออกแบบเกียรติบัตร</h2>
+      <button class="btn btn-primary" onclick="saveCertSettings()">💾 บันทึกรูปแบบ</button>
+    </div>
+    <div class="grid" style="grid-template-columns: minmax(300px, 1fr) minmax(300px, 2fr);">
+      <div class="card" style="max-height: 80vh; overflow-y: auto;">
+        <h3 style="margin-bottom:15px; color:var(--primary);">การตั้งค่า</h3>
+        
+        <div class="form-group">
+          <label>รูปพื้นหลังเกียรติบัตร</label>
+          <button class="btn btn-outline" style="width:100%; border-style:dashed;" onclick="document.getElementById('cert-bg-file').click()">📤 เลือกไฟล์จากเครื่อง</button>
+          <input type="file" id="cert-bg-file" accept="image/*" style="display:none;" onchange="handleCertBgUpload(this)">
+          <input type="hidden" id="cert-bg-url">
+        </div>
+        
+        <div class="form-group"><label>คำอธิบายเกียรติบัตร</label><textarea id="cert-desc" oninput="updateCertPreview()" rows="2">ได้ผ่านเกณฑ์ยอดเยี่ยม</textarea></div>
+        
+        <div style="background:var(--bg); padding:15px; border-radius:8px; margin-bottom:15px; border: 1px solid var(--border-color);">
+          <label style="font-weight:600; margin-bottom:10px; display:block;">🎨 ปรับสีตัวอักษรหลัก</label>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div style="text-align:center;"><small style="color:var(--text-muted);">สีหัวข้อ</small><input type="color" id="cert-title-color" value="#000000" oninput="updateCertPreview()" style="width:100%; height:30px;"></div>
+            <div style="text-align:center;"><small style="color:var(--text-muted);">สีชื่อ นร.</small><input type="color" id="cert-name-color" value="#00008b" oninput="updateCertPreview()" style="width:100%; height:30px;"></div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-green); padding:15px; border-radius:10px; border: 1px solid var(--border-green); margin-bottom:15px;">
+          <label style="font-weight:600; margin-bottom:10px; display:block; color:var(--text-green);">✍️ เพิ่มข้อความแบบอิสระ</label>
+          <button class="btn btn-primary" style="width:100%; background:var(--border-green); color:#fff;" onclick="addCustomText()">+ เพิ่มข้อความใหม่</button>
+        </div>
+
+        <div style="background:var(--bg-orange); padding:15px; border-radius:10px; border: 1px solid var(--border-orange);">
+          <label style="font-weight:600; margin-bottom:5px; display:block; color:var(--text-orange);">📏 วิธีจัดวางตำแหน่ง & แก้ไข</label>
+          <p style="font-size:0.85rem; color:var(--text-orange); margin:0;">
+            1. ใช้เมาส์คลิกค้างเพื่อ <b>"ลาก"</b> ย้ายตำแหน่ง <br>
+            2. <b>"ดับเบิ้ลคลิก"</b> ที่ข้อความบนรูป เพื่อแก้ไขคำ!
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="background:var(--bg); display:flex; justify-content:center; align-items:center; overflow:hidden;">
+        <div id="cert-preview-box" style="width:100%; max-width:800px; height:560px; background-color:white; background-size:cover; background-position:center; position:relative; box-shadow:0 10px 25px rgba(0,0,0,0.1); transform: scale(0.6); transform-origin: top center; user-select: none;">
+          <div id="pv-title" class="draggable-item" style="position:absolute; left:200px; top:100px; font-size:40px; font-weight:bold; cursor:move; white-space:nowrap;">เกียรติบัตรฉบับนี้ให้ไว้เพื่อแสดงว่า</div>
+          <div id="pv-name" class="draggable-item" style="position:absolute; left:250px; top:180px; font-size:50px; color:darkblue; cursor:move; white-space:nowrap; font-weight:bold;">ด.ช. นักเรียน ตัวอย่าง</div>
+          <div id="pv-desc" class="draggable-item" style="position:absolute; left:300px; top:280px; font-size:20px; cursor:move; white-space:nowrap;">ได้ผ่านเกณฑ์ยอดเยี่ยม</div>
+          
+          <div id="pv-sign" class="draggable-item" style="position:absolute; left:500px; top:400px; text-align:center; cursor:move;">
+            <img id="pv-sign-img" src="" style="width:150px; max-height:80px; display:none; pointer-events:none;"><br>
+            <span id="pv-teacher-name" style="pointer-events:none;">( ชื่อคุณครู )</span><br>
+            <span id="pv-teacher-role" style="pointer-events:none;">ครูผู้สอน</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="v-seating-chart" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-detail')">← กลับ</button>
+      <h2>🪑 จัดแผนผังที่นั่ง</h2>
+      <button class="btn btn-primary" onclick="saveSeatingChartData()">💾 บันทึกแผนผัง</button>
+    </div>
+    <div class="card" style="background:var(--bg-orange); border-color:var(--border-orange);">
+      <p style="color:var(--text-orange); margin:0; font-size:0.95rem;"><b>💡 วิธีใช้:</b> ลากชื่อนักเรียนจากกล่องด้านบน ลงไปวางที่เก้าอี้ในแผนผังด้านล่าง</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-bottom:10px; color:var(--text-muted);">รายชื่อนักเรียนที่ยังไม่จัดที่นั่ง</h4>
+      <div id="unassigned-pool" class="unassigned-pool" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    </div>
+    <div class="card" style="background:var(--bg); border: 2px dashed var(--border-color);">
+      <h3 style="text-align:center; color:var(--text-muted); margin-bottom:20px;">กระดานหน้าห้องเรียน</h3>
+      <div id="seat-grid" class="seat-grid"></div>
+    </div>
+  </div>
+
+  <div id="v-bulk-edit-students" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-detail')">← ยกเลิก</button>
+      <h2>📝 จัดการข้อมูลนักเรียนทั้งชั้น</h2>
+      <button class="btn btn-primary" onclick="saveBulkEditStudents()">💾 บันทึกการเปลี่ยนแปลง</button>
+    </div>
+    <div class="card" id="bulk-edit-table" style="overflow-x:auto; padding: 15px;"></div>
+  </div>
+
+  <div id="v-manage-students" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-detail')">← กลับหน้าห้อง</button>
+      <h2>🦸‍♂️ ให้คะแนนฮีโร่</h2>
+      <button class="btn btn-primary" onclick="openModal('m-add-single-stud')">+ เพิ่มนักเรียน 1 คน</button>
+    </div>
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-blue); border-color:var(--border-blue); flex-wrap:wrap; gap:15px;">
+      <div>
+        <h3 style="color:var(--text-blue); margin:0;">เวทมนตร์หมู่ (Global Buff)</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin:0;">แจกแต้มให้ทุกคนในห้อง</p>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <input type="number" id="bulk-pts-input" placeholder="แต้ม" style="width:90px; text-align:center;">
+        <button class="btn btn-primary" onclick="giveBulkPoints()">แจกแต้ม!</button>
+      </div>
+    </div>
+    <div class="card" id="manage-stud-list"></div>
+  </div>
+
+  <div id="v-tools" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-detail')">← กลับห้องเรียน</button>
+      <h2>🛠️ เครื่องมือช่วยสอน</h2>
+    </div>
+    
+    <div class="card" style="margin-bottom:20px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border:1px solid #fbbf24;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="color:#d97706; margin:0; display:flex; align-items:center; gap:8px;">📢 ประกาศถึงนักเรียน</h3>
+        <button class="btn btn-outline btn-sm" onclick="saveAnnouncement()" style="border-color:#d97706; color:#d97706; font-size:0.8rem;">💾 บันทึกประกาศ</button>
+      </div>
+      <textarea id="class-announcement-input" class="input" style="margin-top:10px; min-height:80px; border-color:#fcd34d; background:white;" placeholder="พิมพ์ประกาศถึงนักเรียนในห้องนี้..."></textarea>
+    </div>
+
+    <div class="grid" id="tools-grid" style="grid-template-columns: repeat(2, 1fr); gap: 20px;">
+      
+      <div class="card tool-card" id="tool-random" style="text-align:center; padding: 25px; position:relative;">
+        <button class="btn-sm btn-outline btn-fullscreen" onclick="toggleFullScreen('tool-random')" style="position:absolute; top:10px; right:10px; z-index:10;">🔲 เต็มจอ</button>
+        <h3 style="color:var(--secondary); margin-bottom: 20px;">🎲 วงล้อสุ่มชื่อ</h3>
+        <div id="random-display" style="font-size: 3rem; font-weight: bold; color: #ff4b5c; min-height: 150px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 20px; margin-bottom: 15px;">?</div>
+        <div style="margin-bottom: 20px;"><label style="cursor:pointer;"><input type="checkbox" id="remove-after-spin"> สุ่มแล้วตัดชื่อออก</label></div>
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+          <button class="btn btn-outline" onclick="resetRandomPool()">🔄 รีเซ็ต</button>
+          <button class="btn btn-primary" style="background:#6366f1;" onclick="startAdvancedRandom()">🎲 สุ่มเลย!</button>
+        </div>
+      </div>
+
+      <div class="card tool-card" id="tool-timer" style="text-align:center; padding: 25px; position:relative;">
+        <button class="btn-sm btn-outline btn-fullscreen" onclick="toggleFullScreen('tool-timer')" style="position:absolute; top:10px; right:10px; z-index:10;">🔲 เต็มจอ</button>
+        <h3 style="color:#92400e; margin-bottom: 20px;">⏱️ จับเวลาถอยหลัง</h3>
+        <div id="timer-display" style="font-size: 4.5rem; font-weight: bold; color: #334155; margin-bottom: 20px; font-variant-numeric: tabular-nums;">00:00</div>
+        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;">
+          <input type="number" id="timer-min" value="5" style="width: 70px; text-align: center; font-size: 1.2rem; padding:5px;"> <span style="font-size:1.5rem; font-weight:bold;">:</span>
+          <input type="number" id="timer-sec" value="0" style="width: 70px; text-align: center; font-size: 1.2rem; padding:5px;">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+          <button class="btn" style="background:#22c55e; color:white;" onclick="startTimer()">▶️</button>
+          <button class="btn" style="background:#f59e0b; color:white;" onclick="pauseTimer()">⏸️</button>
+          <button class="btn" style="background:#f43f5e; color:white;" onclick="resetTimer()">⏹️</button>
+        </div>
+      </div>
+
+      <div class="card tool-card" id="tool-group" style="text-align:center; padding: 25px; position:relative;">
+        <button class="btn-sm btn-outline btn-fullscreen" onclick="toggleFullScreen('tool-group')" style="position:absolute; top:10px; right:10px; z-index:10;">🔲 เต็มจอ</button>
+        <h3 style="color:#8b5cf6; margin-bottom: 20px;">👥 สุ่มจับกลุ่ม</h3>
+        <div class="form-group" style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
+          <input type="number" id="group-count" value="4" min="2" style="width:80px; text-align:center;">
+          <select id="group-type" style="width:120px; padding:10px;">
+            <option value="groups">กลุ่มละ (คน)</option>
+            <option value="total">แบ่งเป็น (กลุ่ม)</option>
+          </select>
+        </div>
+        <div id="group-display" style="min-height: 150px; max-height:250px; overflow-y:auto; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; margin-bottom: 15px; padding:15px; text-align:left;">
+          <p style="text-align:center; color:#94a3b8; margin-top:30px;">ผลการสุ่มกลุ่มจะแสดงที่นี่...</p>
+        </div>
+        <button class="btn btn-primary" style="background:#8b5cf6; width:100%; border:none;" onclick="generateGroups()">✨ สุ่มจัดกลุ่มเลย!</button>
+      </div>
+
+      <div class="card tool-card" id="tool-scoreboard" style="text-align:center; padding: 25px; position:relative;">
+        <button class="btn-sm btn-outline btn-fullscreen" onclick="toggleFullScreen('tool-scoreboard')" style="position:absolute; top:10px; right:10px; z-index:10;">🔲 เต็มจอ</button>
+        <h3 style="color:#3b82f6; margin-bottom: 20px;">🏆 คะแนนกิจกรรม</h3>
+        <div id="scoreboard-teams" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:15px; max-height:250px; overflow-y:auto; padding-right:5px;">
+          </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-outline" style="flex:1; border-color:#3b82f6; color:#3b82f6;" onclick="addScoreTeam()">+ เพิ่มทีม</button>
+          <button class="btn btn-outline" style="flex:1;" onclick="resetScoreboard()">🔄 รีเซ็ต</button>
+        </div>
+      </div>
+
+      <div class="card tool-card" id="tool-dice" style="text-align:center; padding: 25px; position:relative;">
+        <button class="btn-sm btn-outline btn-fullscreen" onclick="toggleFullScreen('tool-dice')" style="position:absolute; top:10px; right:10px; z-index:10;">🔲 เต็มจอ</button>
+        <h3 style="color:#f59e0b; margin-bottom: 20px;">🎲 ลูกเต๋าจำลอง</h3>
+        <div id="dice-container" style="display:flex; justify-content:center; gap:15px; min-height: 120px; align-items:center; margin-bottom:15px; font-size:4rem; color:#334155;">
+          <div class="dice" id="dice-0">🎲</div>
+        </div>
+        <div style="margin-bottom:15px; color:var(--text-muted);">
+          จำนวนลูกเต๋า:
+          <select id="dice-count" style="width:80px; display:inline-block; margin-left:10px; padding:5px; text-align:center;" onchange="renderDice()">
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          </select>
+        </div>
+        <button class="btn btn-warning" style="width:100%; background:#f59e0b; color:white; border:none;" onclick="rollDice()">ทอยลูกเต๋า!</button>
+      </div>
+<div class="card tool-card" id="tool-noise" style="text-align:center; padding: 25px; position:relative; overflow:hidden;">
+        <button class="btn-sm btn-outline btn-fullscreen" onclick="toggleFullScreen('tool-noise')" style="position:absolute; top:10px; right:10px; z-index:10;">🔲 เต็มจอ</button>
+        <h3 style="color:#10b981; margin-bottom: 10px;">🔊 มิเตอร์วัดความดัง</h3>
+        
+        <div id="noise-emoji" style="font-size: 6rem; transition: transform 0.1s ease; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); margin-bottom: -10px;">😌</div>
+        
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; margin-bottom:15px; position:relative; z-index:2;">
+          <div id="noise-number" style="font-size: 4rem; font-weight: 900; color: #334155; line-height:1; transition:color 0.2s;">0</div>
+          <div style="margin-top: 10px; font-size: 1.1rem; font-weight: bold; color: #ef4444; background: rgba(239,68,68,0.1); padding: 5px 15px; border-radius: 20px;">
+            🚨 เตือนแล้ว: <span id="noise-exceed-count" style="display:inline-block; transition: transform 0.2s ease;">0</span> ครั้ง
+          </div>
+        </div>
+
+        <div style="text-align: left; margin-bottom: 25px; background: var(--bg); padding: 20px; border-radius: 15px; border: 1px solid var(--border-color);">
+          <label style="font-weight: bold; color: var(--text-main); margin-bottom: 15px; display: block; font-size: 1rem;">
+            ตั้งค่าระดับเสียงสูงสุดในห้องเรียนของคุณ:
+          </label>
+
+          <div style="width:100%; position:relative; margin-bottom: 20px;">
+            <input type="range" id="noise-threshold" min="0" max="100" value="70" 
+                   style="width: 100%; margin:0; accent-color: #ef4444; cursor: pointer; display: block;" 
+                   oninput="updateNoiseSettings(this.value)">
+            
+            <div style="width:100%; height:40px; background:#374151; border-radius:8px; overflow:hidden; position:relative; margin-top: 5px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);">
+              <div id="noise-bar" style="height:100%; width:0%; background:#22c55e; transition: width 0.1s ease-out, background 0.2s;"></div>
+              <div id="noise-threshold-line" style="position:absolute; top:0; bottom:0; width:4px; background:#ef4444; left:70%; z-index: 5;"></div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px;">
+              <label style="display:inline-flex; align-items:center; gap:10px; cursor:pointer; font-size:0.95rem; color:var(--text-main); font-weight:600;">
+                 <input type="checkbox" id="noise-sound-alert" style="width:20px; height:20px; accent-color: #10b981;" checked>
+                 ใช้เสียงเตือน (เมื่อเสียงดังเกินลิมิต) 📢
+              </label>
+          </div>
+        </div>
+
+        <button id="btn-noise-start" class="btn btn-primary" style="background:#10b981; border:none; width:100%; font-size: 1.1rem; padding: 12px;" onclick="toggleNoiseMeter()">🎤 เปิดไมค์วัดเสียง</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="v-attendance-report" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-detail')">← กลับ</button>
+      <h2>📋 รายงานไทม์ไลน์</h2>
+    </div>
+    <div class="card" id="attendance-detailed-table" style="overflow-x:auto;"></div>
+  </div>
+
+  <div id="v-at" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-detail')">← ยกเลิก</button>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <h2 style="margin:0; font-size:1.2rem;">เช็คชื่อ:</h2>
+        <input type="date" id="at-date-picker" style="padding: 8px; border-radius: 8px; background: var(--bg);" onchange="loadAttendanceForSelectedDate()">
+      </div>
+      <button class="btn btn-primary" onclick="submitAt()">💾 บันทึก</button>
+    </div>
+    
+    <div class="card" style="background:var(--bg-blue); border-color:var(--border-blue); text-align:center; padding:20px; border:2px dashed var(--border-blue);">
+      <h3 style="color:var(--text-blue); margin-bottom:10px;">👁️ AI สแกนใบหน้า (Face ID)</h3>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:15px;">เปิดกล้องเพื่อสแกนใบหน้านักเรียนเข้าชั้นเรียนอัตโนมัติ</p>
+      
+      <div style="max-width:300px; margin: 0 auto 15px auto;">
+         <input type="text" id="barcode-scanner" placeholder="พิมพ์เลขที่เพื่อเช็คชื่อด้วยมือ..." style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-blue); text-align:center; font-weight:bold;" onkeypress="if(event.key==='Enter') processBarcode(this.value, this)">
+      </div>
+
+      <button class="btn btn-primary" id="btn-start-face" onclick="startFaceScanner()">📸 เปิดโหมดสแกนใบหน้า</button>
+      
+      <div id="face-scanner-container" style="display:none; margin-top:20px; position:relative; overflow:hidden; border-radius:12px; border:3px solid var(--primary); width:100%; max-width:400px; margin-left:auto; margin-right:auto; background:#000;">
+         <video id="face-video" autoplay playsinline style="width:100%; display:block; transform: scaleX(-1);"></video>
+         
+         <div style="position:absolute; top:0; left:0; width:100%; height:100%; box-shadow: inset 0 0 50px rgba(99,102,241,0.5); pointer-events:none;">
+            <div style="position:absolute; top:10%; left:10%; width:20px; height:20px; border-top:3px solid #4ade80; border-left:3px solid #4ade80;"></div>
+            <div style="position:absolute; top:10%; right:10%; width:20px; height:20px; border-top:3px solid #4ade80; border-right:3px solid #4ade80;"></div>
+            <div style="position:absolute; bottom:10%; left:10%; width:20px; height:20px; border-bottom:3px solid #4ade80; border-left:3px solid #4ade80;"></div>
+            <div style="position:absolute; bottom:10%; right:10%; width:20px; height:20px; border-bottom:3px solid #4ade80; border-right:3px solid #4ade80;"></div>
+         </div>
+         <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:#4ade80; box-shadow: 0 0 15px #4ade80; animation: scanline 2.5s infinite linear; pointer-events:none;"></div>
+         
+         <div style="position:absolute; bottom:15px; width:100%; display:flex; justify-content:center; gap:10px; z-index:10;">
+            <button class="btn btn-red btn-sm" onclick="stopFaceScanner()">ปิดกล้อง ❌</button>
+            <button class="btn btn-green btn-sm" onclick="simulateFaceDetect()">🔍 (จำลอง) สแกนเจอหน้า</button>
+         </div>
+      </div>
+    </div>
+    
+    <div class="card" id="at-table" style="overflow-x:auto;"></div>
+  </div>
+
+  <div id="v-assign" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-detail')">← กลับ</button>
+      <h2>📁 บทเรียนและภารกิจ</h2>
+      <button class="btn btn-primary" onclick="openModal('m-assign')">+ สร้างบทเรียนใหม่</button>
+      <button class="btn btn-outline" onclick="importAssignmentFromOtherClass()" style="margin-left: 10px; border-color: var(--primary); color: var(--primary);">
+   📥 นำเข้าภารกิจจากห้องอื่น
+</button>
+    </div>
+    <div id="assign-list" class="grid"></div>
+  </div>
+
+  <div id="v-scores" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-assign')">← ยกเลิก</button>
+      <h2 id="score-title">กรอกคะแนน</h2>
+      <button class="btn btn-primary" onclick="submitScores()">💾 บันทึก</button>
+    </div>
+    <div class="card" id="score-table" style="overflow-x:auto;"></div>
+  </div>
+
+  <div id="v-exams" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-detail')">← กลับห้องเรียน</button>
+      <h2>📝 จัดการข้อสอบ (Exam)</h2>
+      <button class="btn btn-primary" onclick="openExamBuilder(null)">+ สร้างข้อสอบใหม่</button>
+      <button class="btn btn-outline" onclick="importExamFromOtherClass()" style="margin-left: 10px; border-color: var(--primary); color: var(--primary);">
+   📥 นำเข้าข้อสอบจากห้องอื่น
+</button>
+    </div>
+    <div id="exam-list" class="grid">
+       <div style="text-align:center; padding: 40px; width: 100%; color: var(--text-muted); background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color);">
+          ยังไม่มีชุดข้อสอบในห้องนี้<br><br>กดปุ่ม <b>"+ สร้างข้อสอบใหม่"</b> เพื่อเริ่มต้นได้เลยครับ!
+       </div>
+    </div>
+  </div>
+
+  <div id="v-exam-builder" class="view container">
+    <div class="header-bar" style="position: sticky; top: 0; background: var(--bg); z-index: 100; padding-top: 15px;">
+      <button class="btn btn-warning" onclick="switchView('v-exams')">← ยกเลิก</button>
+      <h2 id="builder-title">สร้าง/แก้ไขข้อสอบ</h2>
+      <button class="btn btn-primary" onclick="saveExamData()">💾 บันทึกข้อสอบ</button>
+    </div>
+
+    <div class="card" style="background:var(--bg-blue); border-color:var(--border-blue); margin-bottom: 20px; padding: 20px;">
+      <h3 style="color:var(--text-blue); margin-bottom: 15px;">⚙️ ตั้งค่าชุดข้อสอบ</h3>
+      
+      <div class="form-group" style="margin-bottom: 15px;">
+        <label style="display:block; margin-bottom:5px; font-weight:bold;">ชื่อชุดข้อสอบ <span style="color:red">*</span></label>
+        <input type="text" id="ex-title" placeholder="เช่น สอบกลางภาค วิทยาศาสตร์ ป.1" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family:'Kanit';">
+      </div>
+      
+      <div class="form-group">
+        <label style="display:block; margin-bottom:5px; font-weight:bold;">คะแนนเต็ม <span style="color:red">*</span></label>
+        <input type="number" id="ex-max-score" placeholder="เช่น 10, 20" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family:'Kanit';">
+      </div>
+      
+      <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
+          <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+              <input type="checkbox" id="ex-show-score" checked style="width:18px; height:18px;"> โชว์คะแนน
+          </label>
+          <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+              <input type="checkbox" id="ex-show-answer" checked style="width:18px; height:18px;"> โชว์เฉลย
+          </label>
+          <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+              <input type="checkbox" id="ex-random-q" style="width:18px; height:18px;"> 🎲 สุ่มสลับลำดับข้อสอบ
+          </label>
+          <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+              <input type="checkbox" id="ex-random-opt" style="width:18px; height:18px;"> 🔀 สุ่มสลับตัวเลือก (MCQ)
+          </label>
+      </div>
+      
+      <div class="form-group" style="margin-top: 15px;">
+        <label style="display:block; margin-bottom:5px; font-weight:bold;">เวลาในการทำข้อสอบต่อข้อ (วินาที) <span style="color:var(--text-muted); font-weight:normal;">*ใส่ 0 หรือปล่อยว่างถ้าไม่จำกัดเวลา</span></label>
+        <input type="number" id="ex-time-limit" placeholder="เช่น 15, 30, 0" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family:'Kanit';">
+      </div>
+    </div>
+
+    <div class="card" style="border: 2px dashed var(--border-color); text-align: center; padding: 30px;">
+        <h3 style="color:var(--text-main); margin-bottom: 10px;">รายการคำถาม</h3>
+        <div id="exam-questions-container" style="text-align: left;"></div>
+        <p style="color:var(--text-muted); margin-bottom: 20px; margin-top: 20px;">(กดปุ่มด้านล่างเพื่อเพิ่มโจทย์และตัวเลือก)</p>
+        <button class="btn btn-outline" style="border-color:var(--primary); color:var(--primary);" onclick="openModal('m-add-question')">+ เพิ่มข้อคำถาม</button>
+    </div>
+  </div>  
+
+  <div id="v-take-exam" class="view" style="padding:0; margin:0; height:100vh; overflow:hidden; background:none;">
+    <div class="zep-bg" style="display:flex; flex-direction:column; height:100vh; width:100vw; position:absolute; top:0; left:0; z-index:9999;">
+      <!-- Main Game UI -->
+      <div class="zep-top-bar">
+        <button class="btn btn-outline" style="color:white; border-color:white;" onclick="quitZepExam()">← ออกจากห้องสอบ</button>
+        <div class="zep-q-counter">Q <span id="zep-current-q">1</span>/<span id="zep-total-q">5</span></div>
+        <div style="font-size: 1.2rem; font-weight: 700; color: #ffd32a;">⭐ <span id="zep-score">0</span></div>
+      </div>
+
+      <div class="zep-timer-container">
+        <div class="zep-timer-bar" id="zep-timer-bar"></div>
+      </div>
+
+      <div class="zep-game-area">
+        <!-- Question -->
+        <div class="zep-question-wrapper">
+          <div class="zep-question-bubble" id="zep-question-text">
+            Ready?
+          </div>
+        </div>
+
+        <!-- Character / Stage -->
+        <div class="zep-stage-area" id="zep-stage">
+          <div class="zep-player-avatar" id="zep-avatar">🦊</div>
+        </div>
+
+        <!-- Options -->
+        <div class="zep-options-area" id="zep-options-container">
+          <!-- Options will be injected here -->
+        </div>
+      </div>
+      
+      <!-- Overlay for Result -->
+      <div id="zep-result-screen" class="overlay hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10000; background:rgba(26,22,37,0.95); display:none; flex-direction:column; align-items:center; justify-content:center;">
+        <div style="background: #2d2640; padding: 50px; border-radius: 30px; text-align: center; border: 4px solid #8b5cf6; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+          <div style="font-size: 5rem; margin-bottom: 10px;">🏆</div>
+          <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: white;">สอบเสร็จแล้ว!</h2>
+          <p style="font-size: 1.5rem; color: #a8b1c2; margin-bottom: 10px;">คะแนนที่ได้</p>
+          <div style="font-size: 4rem; font-weight: 800; color: #ffd32a; margin-bottom: 30px;" id="zep-final-score">0</div>
+          <button class="btn btn-primary" style="font-size: 1.5rem; padding: 15px 40px; border-radius:50px; background:#8b5cf6; border:none;" onclick="finishZepExam()">ยืนยันส่งคะแนน</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div id="v-calendar" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-lobby')">← กลับหน้าหลัก</button>
+      <h2>📅 ปฏิทินกิจกรรม</h2>
+    </div>
+    
+    <div class="card" style="padding: 0; overflow: hidden; border-radius: 12px; background: white;">
+      <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FBangkok&showPrint=0&src=bGFtcGh1bmluZHlAZ21haWwuY29t&src=Y2xhc3Nyb29tMTAzNDA5MjM2Njc5ODc3MTIzNTc3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=Y2xhc3Nyb29tMTEyMTM5NTg5ODExNDM3MjYxNTk3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZmFtaWx5MDUwNjY1MzAzMTgxMDA5MzU1NjhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=dGgudGgjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23e4c441&color=%23202124&color=%23137333&color=%23a79b8e&color=%230b8043" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+<div id="v-timetable" class="view container">
+    <div class="header-bar">
+      <button class="btn btn-outline" onclick="switchView('v-teacher')">← กลับ</button>
+      <h2>📅 ตารางสอน (กระดานดำ)</h2>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-outline" style="color:var(--text-main);" onclick="addTimetablePeriod()">+ เพิ่มคาบเรียน</button>
+        <button class="btn btn-primary" onclick="saveTimetable()">💾 บันทึกตาราง</button>
+      </div>
+    </div>
+    
+    <div class="card" style="background:var(--bg-orange); border-color:var(--border-orange);">
+      <p style="color:var(--text-orange); margin:0;"><b>💡 วิธีใช้:</b> ลากป้ายห้องเรียนจากด้านล่าง ไปวางในช่องตารางสอนได้เลย (สามารถลากห้องเดิมซ้ำได้หลายคาบ) หากต้องการลบให้กดกากบาทสีแดงที่ป้าย</p>
+    </div>
+
+    <div class="tt-board-container">
+      <div id="tt-board" style="min-width: 800px;"></div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="margin-bottom:15px; color:var(--text-main);">🎒 ห้องเรียนของฉัน (ลากไปวางในกระดาน)</h3>
+      <div id="tt-class-pool" style="display:flex; gap:10px; flex-wrap:wrap; padding:15px; background:var(--bg); border-radius:10px; border:2px dashed var(--border-color);"></div>
+    </div>
+  </div>
+  <div class="app-footer" id="app-footer" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%; padding: 30px 20px; border-top: 1px dashed var(--border-color); margin-top: auto; background: var(--bg);">
+    <span id="sys-footer-text" style="color: var(--text-muted); font-size: 0.95rem;">จัดทำโดย ...</span>
+    
+    <div id="visitor-count-text" style="margin-top: 15px; padding: 8px 25px; background: var(--bg-blue); border: 2px solid var(--border-blue); border-radius: 30px; font-weight: 700; color: var(--text-blue); font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+      👁️ ผู้เข้าชมทั้งหมด: กำลังโหลด...
+    </div>
+  </div>
+
+  <div id="m-add-question" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px;">เลือกรูปแบบคำถาม</h2>
+      <button class="btn btn-outline" style="width:100%; margin-bottom:10px; text-align:left;" onclick="addQuestionUI('mcq')">🔘 เลือกตอบ (4 ตัวเลือก)</button>
+      <button class="btn btn-outline" style="width:100%; margin-bottom:10px; text-align:left;" onclick="addQuestionUI('tf')">✅/❌ ถูกหรือผิด</button>
+      <button class="btn btn-outline" style="width:100%; margin-bottom:20px; text-align:left;" onclick="addQuestionUI('short')">✍️ พิมพ์ตอบสั้นๆ</button>
+      <button class="btn btn-red" style="width:100%;" onclick="closeModal('m-add-question')">ยกเลิก</button>
+    </div>
+  </div>
+
+  <div id="m-system-settings" class="modal-overlay">
+    <div class="modal" style="max-width: 650px;">
+      <h2 style="margin-bottom:20px;">⚙️ ตั้งค่าระบบ (Superadmin)</h2>
+      <div class="form-group"><label>ชื่อระบบ (หน้าหลัก)</label><input type="text" id="sys-title-input" placeholder="เช่น LMS HERO EDITION"></div>
+      <div class="form-group"><label>ข้อความส่วนท้าย (Footer)</label><input type="text" id="sys-footer-input" placeholder="จัดทำโดย..."></div>
+      
+      <hr style="margin:20px 0; border:1px solid var(--border-color);">
+      <h4 style="margin-bottom:10px; color:var(--primary);">แก้ไขข้อความปุ่มกดหน้าหลัก</h4>
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap:10px;">
+        <div class="form-group"><label>ปุ่มค้นหาผลการเรียน</label><input type="text" id="sys-btn-search"></div>
+        <div class="form-group"><label>ปุ่มเข้าสู่ระบบนักเรียน</label><input type="text" id="sys-btn-student"></div>
+        <div class="form-group"><label>ปุ่มเข้าสู่ระบบบุคลากร</label><input type="text" id="sys-btn-staff"></div>
+        <div class="form-group"><label>ปุ่มดูปฏิทินกิจกรรม</label><input type="text" id="sys-btn-calendar"></div>
+      </div>
+
+      <h4 style="margin-bottom:10px; margin-top:10px; color:var(--primary);">แก้ไขข้อความปุ่มเมนูห้องเรียน</h4>
+      <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; gap:10px;">
+        <div class="form-group"><label>ปุ่มเครื่องมือครู</label><input type="text" id="sys-btn-tools"></div>
+        <div class="form-group"><label>ปุ่มแผนผังที่นั่ง</label><input type="text" id="sys-btn-seating"></div>
+        <div class="form-group"><label>ปุ่มไทม์ไลน์</label><input type="text" id="sys-btn-timeline"></div>
+        <div class="form-group"><label>ปุ่มเช็คชื่อ</label><input type="text" id="sys-btn-attendance"></div>
+        <div class="form-group"><label>ปุ่มภารกิจ</label><input type="text" id="sys-btn-assignments"></div>
+        <div class="form-group"><label>ปุ่มจัดการข้อสอบ</label><input type="text" id="sys-btn-exams"></div>
+      </div>
+
+      <h4 style="margin-bottom:10px; margin-top:10px; color:var(--primary);">แก้ไขข้อความปุ่มจัดการนักเรียน</h4>
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap:10px;">
+        <div class="form-group"><label>ปุ่มโหลด Excel</label><input type="text" id="sys-btn-excel"></div>
+        <div class="form-group"><label>ปุ่มออกแบบเกียรติบัตร</label><input type="text" id="sys-btn-cert"></div>
+        <div class="form-group"><label>ปุ่มเพิ่ม นร. Excel</label><input type="text" id="sys-btn-add-student"></div>
+        <div class="form-group"><label>ปุ่มจัดการ นร.</label><input type="text" id="sys-btn-manage-student"></div>
+        <div class="form-group"><label>ปุ่มให้คะแนนฮีโร่</label><input type="text" id="sys-btn-hero-points"></div>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button class="btn btn-primary" style="flex:1;" onclick="saveSysSettings()">บันทึก</button>
+        <button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-system-settings')">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="m-select-student" class="modal-overlay">
+    <div class="modal">
+      <h3 style="margin-bottom:15px; color:var(--primary);">เจอคนชื่อซ้ำ! เลือกคนที่ต้องการดู:</h3>
+      <div id="duplicate-list" style="max-height: 300px; overflow-y: auto;"></div>
+      <button class="btn btn-outline" style="width:100%; margin-top:15px;" onclick="closeModal('m-select-student')">ยกเลิก</button>
+    </div>
+  </div>
+
+  <div id="m-pin" class="modal-overlay">
+    <div class="modal">
+      <h3 style="margin-bottom:15px; color:var(--primary);">🔒 ยืนยันตัวตน</h3>
+      <p style="margin-bottom:15px; font-size:0.9rem; color:var(--text-muted);">กรุณากรอกรหัส PIN ประจำตัวเพื่อดูผลการเรียน</p>
+      <div class="form-group"><input type="password" id="student-pin-input" placeholder="****" maxlength="4" style="text-align:center; font-size:1.5rem; letter-spacing:10px; padding:20px;" onkeypress="if(event.key==='Enter')verifyPin()"></div>
+      <button class="btn btn-primary" style="width:100%; padding:14px;" onclick="verifyPin()">🔓 ปลดล็อก</button>
+      <button class="btn btn-outline" style="width:100%; margin-top:10px;" onclick="closeModal('m-pin')">ยกเลิก</button>
+    </div>
+  </div>
+
+  <div id="m-profile" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px; color:var(--primary);">⚙️ แก้ไขโปรไฟล์</h2>
+      <p style="margin-bottom:15px;">Username: <b id="prof-id" style="color:var(--text-main);"></b> (<span id="prof-role"></span>)</p>
+      <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="prof-name"></div>
+      <div class="form-group"><label>รหัสผ่านใหม่ (ปล่อยว่างถ้าไม่เปลี่ยน)</label><input type="password" id="prof-pass" placeholder="***"></div>
+      <div style="display:flex; gap:10px; margin-top:25px;"><button class="btn btn-primary" style="flex:1;" onclick="saveProfile()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-profile')">ยกเลิก</button></div>
+    </div>
+  </div>
+
+  <div id="m-admin-add" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px;">เพิ่มแอดมิน</h2>
+      <div class="form-group"><label>ชื่อ</label><input type="text" id="ad-n"></div>
+      <div class="form-group"><label>Username</label><input type="text" id="ad-u"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="ad-p"></div>
+      <div style="display:flex; gap:10px; margin-top:20px;"><button class="btn btn-primary" style="flex:1;" onclick="saveAdmin()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-admin-add')">ยกเลิก</button></div>
+    </div>
+  </div>
+
+  <div id="m-edit-admin" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px;">แก้ไขแอดมิน</h2>
+      <input type="hidden" id="ea-u"> <div class="form-group"><label>Email (Username)</label><input type="text" id="ea-email" placeholder="ใส่อีเมลที่นี่"></div>
+      <div class="form-group"><label>ชื่อ</label><input type="text" id="ea-n"></div>
+      <div class="form-group"><label>Password (ปล่อยว่างถ้าไม่เปลี่ยน)</label><input type="password" id="ea-p"></div>
+      <div style="display:flex; gap:10px; margin-top:20px;"><button class="btn btn-primary" style="flex:1;" onclick="saveEditAdmin()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-edit-admin')">ยกเลิก</button></div>
+    </div>
+  </div>
+
+  <div id="m-edit-teacher" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px;">แก้ไขครู</h2>
+      <input type="hidden" id="et-u"> <div class="form-group"><label>Email (Username)</label><input type="text" id="et-email" placeholder="ใส่อีเมลที่นี่"></div>
+      <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="et-n"></div>
+      <div class="form-group"><label>Password (ปล่อยว่างถ้าไม่เปลี่ยน)</label><input type="password" id="et-p"></div>
+      <div style="display:flex; gap:10px; margin-top:20px;"><button class="btn btn-primary" style="flex:1;" onclick="saveEditTeacher()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-edit-teacher')">ยกเลิก</button></div>
+    </div>
+  </div>
+
+  <div id="m-teacher" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px;">เพิ่มครูผู้สอน</h2>
+      <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="tc-n"></div>
+      <div class="form-group"><label>Username (ภาษาอังกฤษ)</label><input type="text" id="tc-u"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="tc-p"></div>
+      <div style="display:flex; gap:10px; margin-top:20px;"><button class="btn btn-primary" style="flex:1;" onclick="saveTeacher()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-teacher')">ยกเลิก</button></div>
+    </div>
+  </div>
+  
+  <div id="m-transfer-class" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:10px;">🔄 โอนย้ายห้องเรียน</h2>
+      <p id="transfer-class-name" style="margin-bottom:20px; font-weight:600; color:var(--primary);"></p>
+      <input type="hidden" id="transfer-cid">
+      <div class="form-group"><label>เลือกครูคนใหม่</label><select id="transfer-new-teacher"></select></div>
+      <div style="display:flex; gap:10px; margin-top:20px;"><button class="btn btn-primary" style="flex:1;" onclick="saveTransferClass()">ยืนยัน</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-transfer-class')">ยกเลิก</button></div>
+    </div>
+  </div>
+  
+  <div id="m-class" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px; color:var(--primary);">+ สร้างห้องเรียนใหม่</h2>
+      <div class="form-group"><label>ชื่อห้องเรียน (เช่น ป.1/1)</label><input type="text" id="cn"></div>
+      <div class="form-group">
+        <label>ไอคอนห้อง (อีโมจิ)</label>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <input type="text" id="ce" value="🏫" style="width:80px; text-align:center; font-size:1.5rem; margin:0;">
+          <div class="emoji-picker" style="flex:1; margin-top:0;">
+            <span class="emoji-btn" onclick="setEmoji('ce','🏫')">🏫</span><span class="emoji-btn" onclick="setEmoji('ce','📚')">📚</span><span class="emoji-btn" onclick="setEmoji('ce','💻')">💻</span><span class="emoji-btn" onclick="setEmoji('ce','🔬')">🔬</span><span class="emoji-btn" onclick="setEmoji('ce','🎨')">🎨</span><span class="emoji-btn" onclick="setEmoji('ce','🎵')">🎵</span><span class="emoji-btn" onclick="setEmoji('ce','⚽')">⚽</span><span class="emoji-btn" onclick="setEmoji('ce','🚀')">🚀</span><span class="emoji-btn" onclick="setEmoji('ce','🦖')">🦖</span><span class="emoji-btn" onclick="setEmoji('ce','🧸')">🧸</span><span class="emoji-btn" onclick="setEmoji('ce','⭐')">⭐</span><span class="emoji-btn" onclick="setEmoji('ce','💡')">💡</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:25px;"><button class="btn btn-primary" style="flex:1;" onclick="saveClass()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-class')">ยกเลิก</button></div>
+    </div>
+  </div>
+  
+  <div id="m-edit-class" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px; color:var(--primary);">✏️ แก้ไขห้องเรียน</h2>
+      <input type="hidden" id="ec-id">
+      <div class="form-group"><label>ชื่อห้องเรียน</label><input type="text" id="ec-name"></div>
+      <div class="form-group">
+        <label>ไอคอนห้อง (อีโมจิ)</label>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <input type="text" id="ec-emoji" style="width:80px; text-align:center; font-size:1.5rem; margin:0;">
+          <div class="emoji-picker" style="flex:1; margin-top:0;">
+            <span class="emoji-btn" onclick="setEmoji('ec-emoji','🏫')">🏫</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','📚')">📚</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','💻')">💻</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','🔬')">🔬</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','🎨')">🎨</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','🎵')">🎵</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','⚽')">⚽</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','🚀')">🚀</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','🦖')">🦖</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','🧸')">🧸</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','⭐')">⭐</span><span class="emoji-btn" onclick="setEmoji('ec-emoji','💡')">💡</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:25px;"><button class="btn btn-primary" style="flex:1;" onclick="saveEditClass()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-edit-class')">ยกเลิก</button></div>
+    </div>
+  </div>
+  
+  <div id="m-add-single-stud" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px; color:var(--primary);">+ เพิ่มนักเรียน 1 คน</h2>
+      <div class="form-group"><label>รหัสประจำตัว นร.</label><input type="text" id="as-studentid"></div>
+      <div class="form-group"><label>เลขที่</label><input type="number" id="as-num"></div>
+      <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="as-name"></div>
+      <div class="form-group"><label>ชื่อเล่น</label><input type="text" id="as-nickname"></div>
+      <div class="form-group"><label>รหัส PIN (4 หลัก)</label><input type="text" id="as-pin" maxlength="4" value="1234"></div>
+      <div style="display:flex; gap:10px; margin-top:20px;"><button class="btn btn-primary" style="flex:1;" onclick="saveSingleStudent()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-add-single-stud')">ยกเลิก</button></div>
+    </div>
+  </div>
+  
+  <div id="m-edit-student" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px;">✏️ แก้ไขนักเรียน</h2>
+      <input type="hidden" id="es-id">
+      <div class="form-group"><label>รหัสประจำตัว นร.</label><input type="text" id="es-studentid"></div>
+      <div class="form-group"><label>เลขที่</label><input type="number" id="es-num"></div>
+      <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="es-name"></div>
+      <div class="form-group"><label>ชื่อเล่น</label><input type="text" id="es-nickname"></div>
+      <div class="form-group"><label>PIN</label><input type="text" id="es-pin" maxlength="4"></div>
+      <div style="display:flex; gap:10px; margin-top:20px;"><button class="btn btn-primary" style="flex:1;" onclick="saveEditStudent()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-edit-student')">ยกเลิก</button></div>
+    </div>
+  </div>
+  
+  <div id="m-stud" class="modal-overlay">
+    <div class="modal" style="max-width: 600px;">
+      <h2 style="margin-bottom:20px; color:var(--primary);">📋 เพิ่ม นร. ด้วย Excel (คัดลอกมาวาง)</h2>
+      <p style="margin-bottom:10px; font-size:0.9rem; color:var(--text-muted);">รองรับ 2 รูปแบบ:<br><b>แบบเต็ม:</b> รหัสนักเรียน [Tab] เลขที่ [Tab] ชื่อ [Tab] นามสกุล [Tab] ชื่อเล่น [Tab] PIN<br><b>แบบย่อ:</b> เลขที่ [Tab/Space] ชื่อ-นามสกุล</p>
+      <div class="form-group"><textarea id="stt" rows="8" placeholder="วางข้อมูลจาก Excel ลงที่นี่..." style="font-size:0.9rem; line-height:1.5; white-space:pre; overflow:auto;"></textarea></div>
+      <div style="display:flex; gap:10px; margin-top:20px;"><button class="btn btn-primary" style="flex:1;" onclick="saveStBulk()">บันทึกทั้งหมด</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-stud')">ยกเลิก</button></div>
+    </div>
+  </div>
+  <div id="m-exam-answers" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header"><h3>📝 ตรวจกระดาษคำตอบ</h3><button class="close-btn" onclick="closeModal('m-exam-answers')">✕</button></div>
+      <div id="ea-modal-body" style="max-height: 70vh; overflow-y: auto; padding-right: 10px;"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <div id="m-comment" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:10px; color:var(--primary);">💬 บันทึกพฤติกรรม</h2>
+      <p id="cm-name" style="margin-bottom:15px; font-weight:600; color:var(--text-muted);"></p>
+      <input type="hidden" id="cm-id">
+      <div class="form-group"><textarea id="cm-text" rows="4" placeholder="พิมพ์ข้อความที่นี่..."></textarea></div>
+      <div style="display:flex; gap:10px; margin-top:20px;"><button class="btn btn-primary" style="flex:1;" onclick="saveComment()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-comment')">ยกเลิก</button></div>
+    </div>
+  </div>
+
+  <div id="m-spider-chart" class="modal-overlay">
+    <div class="modal" style="max-width: 500px; text-align: center;">
+      <h2 style="color:var(--primary); margin-bottom: 10px;">📊 เรดาร์สถิติพลังฮีโร่</h2>
+      <h3 id="spider-student-name" style="color:var(--text-main); margin-bottom: 20px;"></h3>
+      <div style="position: relative; height:320px; width:100%; display: flex; justify-content: center;">
+        <canvas id="heroSpiderCanvas"></canvas>
+      </div>
+      <button class="btn btn-outline" style="width: 100%; margin-top: 25px;" onclick="closeModal('m-spider-chart')">ปิดหน้าต่าง</button>
+    </div>
+  </div>
+
+  <div id="m-ai-analytics" class="modal-overlay">
+    <div class="modal" style="max-width: 600px;">
+      <h2 style="margin-bottom:15px; color:var(--primary); display:flex; align-items:center; gap:10px;">
+        <span style="font-size:2rem;">🤖</span> AI วิเคราะห์ผู้เรียน
+      </h2>
+      <h3 id="ai-student-name" style="color:var(--text-main); margin-bottom: 15px; font-weight: 600;"></h3>
+      
+      <div id="ai-analysis-result" style="background:var(--bg-blue); padding:20px; border-radius:12px; border:2px dashed var(--border-blue); min-height: 120px; line-height: 1.6; max-height: 400px; overflow-y: auto; margin-bottom: 20px; color:var(--text-main);">
+        กำลังเรียกคู่หู AI มาช่วยวิเคราะห์ข้อมูล... ⏳
+      </div>
+      
+      <div style="text-align: center;">
+        <button class="btn btn-outline" style="width: 100%; padding: 12px; border-color:var(--border-color);" onclick="closeModal('m-ai-analytics')">ปิดหน้าต่าง</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="m-assign" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px; color:var(--primary);">+ สร้างบทเรียนใหม่</h2>
+      <div class="form-group"><label>ชื่อภารกิจ <span style="color:red">*</span></label><input type="text" id="at"></div>
+      <div class="form-group"><label>คะแนนเต็ม <span style="color:red">*</span></label><input type="number" id="am"></div>
+      <div class="form-group"><label>ตัวชี้วัด</label><input type="text" id="a-ind" placeholder="เช่น ว 4.2 ป.1/1"></div>
+      <div class="form-group"><label>DOL</label><input type="text" id="a-comp" placeholder="ผลลัพธ์การเรียนรู้"></div>
+      <hr style="margin:20px 0; border:1px solid var(--border-color);">
+      <div class="form-group"><label>🔗 ลิงก์ YouTube (ตัวอย่าง)</label><input type="text" id="a-yt" placeholder="https://youtu.be/..."></div>
+      <div class="form-group"><label>📄 ลิงก์ดาวน์โหลดเอกสาร (Drive/PDF)</label><input type="text" id="a-doc" placeholder="https://drive.google.com/..."></div>
+      <div style="display:flex; gap:10px; margin-top:25px;"><button class="btn btn-primary" style="flex:1;" onclick="saveAssign()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-assign')">ยกเลิก</button></div>
+    </div>
+  </div>
+  
+  <div id="m-edit-assign" class="modal-overlay">
+    <div class="modal">
+      <h2 style="margin-bottom:20px; color:var(--primary);">✏️ แก้ไขภารกิจ</h2>
+      <input type="hidden" id="ea-id">
+      <div class="form-group"><label>ชื่อภารกิจ</label><input type="text" id="ea-title"></div>
+      <div class="form-group"><label>คะแนนเต็ม</label><input type="number" id="ea-max"></div>
+      <div class="form-group"><label>ตัวชี้วัด</label><input type="text" id="ea-ind"></div>
+      <div class="form-group"><label>DOL</label><input type="text" id="ea-comp"></div>
+      <hr style="margin:20px 0; border:1px solid var(--border-color);">
+      <div class="form-group"><label>🔗 ลิงก์ YouTube</label><input type="text" id="ea-yt"></div>
+      <div class="form-group"><label>📄 ลิงก์ดาวน์โหลดเอกสาร</label><input type="text" id="ea-doc"></div>
+      <div style="display:flex; gap:10px; margin-top:25px;"><button class="btn btn-primary" style="flex:1;" onclick="saveEditAssign()">บันทึก</button><button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-edit-assign')">ยกเลิก</button></div>
+    </div>
+  </div>
+
+  <div id="m-portfolio-edit" class="modal-overlay">
+    <div class="modal" style="max-width: 650px;">
+      <h2 style="margin-bottom:20px; color:var(--primary);">✏️ แก้ไขแฟ้มสะสมผลงาน</h2>
+      <div class="form-group">
+        <label>เลือกธีมที่ชอบ</label>
+        <select id="ed-port-theme" onchange="previewPortTheme(this.value)">
+          <option value="minimal">⚪ Minimal Pro (สุภาพ)</option>
+          <option value="galactic">🌌 Galactic Explorer (อวกาศ)</option>
+          <option value="rpg">⚔️ Retro RPG (เกมนักรบ)</option>
+          <option value="forest">🌿 Enchanted Forest (ป่าไม้)</option>
+          <option value="fairy">🧚‍♀️ Fairy Tale (แดนเนรมิต)</option>
+          <option value="cyber">💻 Cyber Prodigy (อัจฉริยะไอที)</option>
+          <option value="ocean">🌊 Deep Ocean (โลกใต้ทะเล)</option>
+          <option value="canvas">🎨 Creative Canvas (สมุดวาดรูป)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>รูปโปรไฟล์ (อัปโหลดใหม่)</label><input type="file" accept="image/*" onchange="uploadPortImg(this)"><input type="hidden" id="ed-port-img"></div>
+      <div class="form-group"><label>แนะนำตัวสั้นๆ (Bio)</label><textarea id="ed-port-bio" rows="3" placeholder="เขียนสิ่งที่เป็นตัวเรา หรือเป้าหมายในอนาคต..."></textarea></div>
+      <div class="form-group"><label>ประวัติการศึกษา</label><textarea id="ed-port-edu" rows="3" placeholder="เช่น ชั้นอนุบาล จบจาก..."></textarea></div>
+      <div class="form-group">
+        <label>ปักหมุดผลงานเด่น (เลือกงานที่ส่งแล้วมาโชว์)</label>
+        <div id="ed-port-work-list" style="max-height:150px; overflow-y:auto; background:var(--bg); padding:10px; border-radius:10px; border:1px solid var(--border-color);"></div>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:25px;">
+        <button class="btn btn-primary" style="flex:1;" onclick="saveMyPortfolio()">💾 บันทึกการเปลี่ยนแปลง</button>
+        <button class="btn btn-outline" style="flex:1;" onclick="closeModal('m-portfolio-edit')">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="exam-image-uploader" accept="image/*" style="display:none;" onchange="processExamImageUpload(this)">
+
+  <div id="buddy-btn" onclick="toggleBuddyChat()" style="position: fixed; bottom: 90px; right: 20px; background: var(--primary); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 9999;">
+    🤖
+  </div>
+
+  <div id="buddy-chat-window" style="display: none; position: fixed; bottom: 160px; right: 20px; width: 350px; max-width: 90vw; background: var(--bg); border: 2px solid var(--primary); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 9999; flex-direction: column;">
+    <div style="background: var(--primary); color: white; padding: 10px; border-radius: 12px 12px 0 0; font-weight: bold; display: flex; justify-content: space-between;">
+      <span>🤖 คู่หูผจญภัย</span>
+      <span onclick="toggleBuddyChat()" style="cursor: pointer;">✖️</span>
+    </div>
+    <div id="buddy-chat-history" style="height: 450px; overflow-y: auto; padding: 10px; font-size: 1.1em; background: var(--bg-card); display: flex; flex-direction: column; gap: 8px;">
+      <div style="background: var(--primary); color: white; padding: 8px; border-radius: 10px; align-self: flex-start; max-width: 80%;">สวัสดีฮีโร่! มีอะไรให้คู่หูช่วยคิดหรืออยากให้ช่วยดูตรงไหน บอกมาได้เลย!</div>
+    </div>
+    <div style="display: flex; padding: 10px; border-top: 1px solid #ccc;">
+      <input type="text" id="buddy-input" placeholder="พิมพ์ถามคู่หู..." style="flex: 1; padding: 8px; font-size: 1.1em; border: 1px solid #ccc; border-radius: 8px; outline: none;" onkeypress="if(event.key === 'Enter') sendBuddyMessage()">
+      <button onclick="sendBuddyMessage()" style="margin-left: 5px; background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer;">ส่ง</button>
+    </div>
+  </div>
+<div id="m-face-register" class="modal-overlay">
+    <div class="modal" style="text-align:center;">
+      <h2 style="margin-bottom:10px; color:var(--primary);">📸 ลงทะเบียนใบหน้า</h2>
+      <h3 id="face-reg-name" style="margin-bottom:20px; color:var(--text-main);"></h3>
+      
+      <div style="position:relative; width:100%; max-width:320px; margin:0 auto; border-radius:12px; overflow:hidden; border:3px solid var(--border-color); background:#000;">
+        <video id="face-reg-video" autoplay playsinline style="width:100%; display:block; transform: scaleX(-1);"></video>
+      </div>
+      
+      <p id="face-reg-status" style="margin-top:15px; font-weight:bold; color:var(--text-orange);">กำลังโหลด AI... ⏳</p>
+      
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button id="btn-capture-face" class="btn btn-primary" style="flex:1;" disabled onclick="captureAndSaveFace()">บันทึกใบหน้า</button>
+        <button class="btn btn-outline" style="flex:1;" onclick="closeFaceRegister()">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+  <div id="m-reward-picker" class="modal-overlay">
+    <div class="modal" style="max-width: 500px; padding: 25px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <h2 id="reward-modal-title" style="margin:0; color:var(--primary);">เลือกรางวัล</h2>
+        <button class="btn-sm btn-outline" onclick="closeModal('m-reward-picker')" style="border:none; font-size:1.5rem; padding:0 10px;">✕</button>
+      </div>
+      <p id="reward-target-name" style="margin-bottom:15px; color:var(--text-muted); font-weight:bold; font-size:1.1rem;"></p>
+      
+      <input type="hidden" id="reward-target-sid">
+      <input type="hidden" id="reward-type"> <div id="reward-list" style="display:flex; flex-direction:column; gap:10px; max-height: 300px; overflow-y: auto; margin-bottom:20px; padding-right:5px;">
+      </div>
+
+      <div style="background:var(--bg); padding:15px; border-radius:12px; border:1px solid var(--border-color);">
+        <h4 style="margin-bottom:10px; color:var(--text-main);">+ เพิ่มรายการของครูเอง</h4>
+        <div style="display:flex; gap:10px;">
+          <input type="text" id="custom-reward-desc" placeholder="คำอธิบาย เช่น ช่วยเก็บขยะ" style="flex:2; padding:10px; font-size:0.95rem;">
+          <input type="number" id="custom-reward-pts" placeholder="แต้ม" style="flex:1; text-align:center; padding:10px; font-size:0.95rem;">
+          <button class="btn btn-primary" onclick="saveCustomReward()" style="padding:10px 15px;">เพิ่ม</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-consent" style="display:none; position:fixed; bottom:20px; left:20px; right:20px; background:var(--card-bg); padding:20px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:99999; border:2px solid var(--primary); justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
+    <div>
+      <h4 style="margin:0 0 5px 0; color:var(--text-main);">🍪 นโยบายคุกกี้ (Cookie Consent)</h4>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">เว็บไซต์นี้มีการใช้งานคุกกี้และ Local Storage เพื่อให้คุณสามารถเข้าสู่ระบบค้างไว้ได้ และช่วยเพิ่มประสบการณ์การใช้งานที่ดียิ่งขึ้น</p>
+    </div>
+    <button class="btn btn-primary" onclick="acceptCookies()" style="white-space:nowrap; padding:10px 20px;">ยอมรับคุกกี้</button>
+  </div>
+  <script src="firebase-config.js" defer></script>
+  <script src="ui-utils.js" defer></script>
+  <script src="auth.js" defer></script>
+  <script src="gamification.js" defer></script>
+  <script src="teacher-core.js" defer></script>
+  <script src="student-dash.js" defer></script>
+  <script src="admin.js" defer></script>
+  <script src="exam-builder.js" defer></script>
+  <script src="tools.js" defer></script>
+  <script src="ai-buddy.js" defer></script>
+  <script src="teacher-actions.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+          console.log('ServiceWorker registration successful');
+        }).catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

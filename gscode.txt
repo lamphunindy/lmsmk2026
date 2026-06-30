@@ -1,0 +1,52 @@
+function setup() {
+  DriveApp.getRootFolder();
+  try { SpreadsheetApp.openById("1yO7rBn1NZepikBdrJ-PzVJuWWb3O13oC-De3x4RD-ro"); } catch(e){}
+}
+
+function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents);
+    
+    // 💡 ระบบแยกแยะโฟลเดอร์: ถ้ามี folderId ส่งมาด้วยให้ใช้อันนั้น (เช่น โลโก้) ถ้าไม่มีให้ใช้ของนักเรียนตามเดิม
+    var defaultFolderId = "1MOAzLgQSKPnHZdNpMXm4vUVzYZRg_nI5"; 
+    var targetFolderId = data.folderId ? data.folderId : defaultFolderId;
+    
+    var folder = DriveApp.getFolderById(targetFolderId);
+    var contentType = data.mimeType || "application/octet-stream";
+    
+    // 💡 ป้องกัน Error อาร์กิวเมนต์ไม่ถูกต้อง: ทำการตัดหัวข้อความแฝง (ถ้ามี) ออกให้เหลือแต่ Base64 บริสุทธิ์
+    var base64String = data.base64;
+    if (base64String.indexOf(",") !== -1) {
+      base64String = base64String.split(",")[1];
+    }
+    
+    var byteCharacters = Utilities.base64Decode(base64String);
+    var blob = Utilities.newBlob(byteCharacters, contentType, data.fileName);
+    var file = folder.createFile(blob);
+    
+    // ป้องกันนโยบายโรงเรียนบล็อกแชร์สาธารณะ
+    try {
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    } catch (shareErr) {
+      // หากโรงเรียนบล็อก ให้ข้ามไปเลย ระบบจะไม่ช็อคกลางทาง
+    }
+    
+    // 💡 คืนค่าลิงก์แบบ "Direct Link" ที่สามารถเอาไปใส่แท็ก <img> ได้เลย (สำหรับหน้าเว็บ)
+    var directUrl = "https://drive.google.com/uc?export=view&id=" + file.getId();
+    
+    return ContentService.createTextOutput(JSON.stringify({ 
+      "status": "success", 
+      "fileUrl": directUrl 
+    })).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ 
+      "status": "error", 
+      "message": error.toString() 
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) { 
+  return ContentService.createTextOutput("LMS Upload System is Ready! 🚀"); 
+}

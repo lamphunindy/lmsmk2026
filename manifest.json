@@ -1,0 +1,23 @@
+{
+  "name": "MK2026 - LMS BY KRUWOOTH",
+  "short_name": "MK2026",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "description": "ระบบการเรียนการสอน (LMS) โดย KRUWOOTH สำหรับโรงเรียนมงคลวิทยา",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
